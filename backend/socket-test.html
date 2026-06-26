@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Movie Notification Test</title>
+</head>
+<body>
+
+<h1>Movie Notifications</h1>
+
+<ul id="messages"></ul>
+
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+<script>
+const socket = io('http://localhost:3000');
+
+socket.on('connect', () => {
+  console.log('Connected!');
+});
+
+socket.on('movieAdded', (movie) => {
+  console.log('Movie received:', movie);
+
+  const li = document.createElement('li');
+  li.innerText = `New Movie Added: ${movie.title}`;
+
+  document
+    .getElementById('messages')
+    .appendChild(li);
+});
+</script>
+
+</body>
+</html>
