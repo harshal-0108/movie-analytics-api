@@ -48,6 +48,7 @@ export declare class MoviesService {
         totalMovies: number;
         averageRating: number;
         highestRatedMovie: null;
-        genreStats: any;
+        lowestRatedMovie: null;
+        genreStats: Record<string, number>;
     }>;
 }

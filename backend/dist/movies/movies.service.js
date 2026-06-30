@@ -69,20 +69,21 @@ let MoviesService = class MoviesService {
     async getAnalytics() {
         const movies = await this.movieModel.find();
         const totalMovies = movies.length;
-        const averageRating = movies.reduce((sum, movie) => sum + movie.rating, 0) /
-            (totalMovies || 1);
+        const averageRating = totalMovies
+            ? movies.reduce((sum, movie) => sum + movie.rating, 0) / totalMovies
+            : 0;
         let highestRatedMovie = null;
-        let highestRating = 0;
+        let lowestRatedMovie = null;
+        let highestRating = -Infinity;
+        let lowestRating = Infinity;
         movies.forEach((movie) => {
             if (movie.rating > highestRating) {
-                let highestRatedMovie = "N/A";
-                let highestRating = -1;
-                movies.forEach((movie) => {
-                    if (movie.rating > highestRating) {
-                        highestRating = movie.rating;
-                        highestRatedMovie = movie.title;
-                    }
-                });
+                highestRating = movie.rating;
+                highestRatedMovie = movie.title;
+            }
+            if (movie.rating < lowestRating) {
+                lowestRating = movie.rating;
+                lowestRatedMovie = movie.title;
             }
         });
         const genreStats = {};
@@ -98,6 +99,7 @@ let MoviesService = class MoviesService {
             totalMovies,
             averageRating: Number(averageRating.toFixed(2)),
             highestRatedMovie,
+            lowestRatedMovie,
             genreStats,
         };
     }

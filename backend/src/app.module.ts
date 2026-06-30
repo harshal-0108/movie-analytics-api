@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 
 import { MoviesModule } from './movies/movies.module';
+import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
@@ -11,6 +12,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     ),
 
     MoviesModule,
+    UsersModule,
   ],
 })
 export class AppModule {}

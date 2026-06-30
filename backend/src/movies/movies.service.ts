@@ -84,49 +84,50 @@ export class MoviesService {
 
   //ANALYTICS
   async getAnalytics() {
-  const movies = await this.movieModel.find();
+    const movies = await this.movieModel.find();
 
-  const totalMovies = movies.length;
+    const totalMovies = movies.length;
 
-  // Average rating
-  const averageRating =
-    movies.reduce((sum, movie) => sum + movie.rating, 0) /
-    (totalMovies || 1);
+    // Average rating
+    const averageRating = totalMovies
+      ? movies.reduce((sum, movie) => sum + movie.rating, 0) / totalMovies
+      : 0;
 
-  // Highest rated movie
-  let highestRatedMovie = null;
-  let highestRating = 0;
+    // Highest and lowest rated movies
+    let highestRatedMovie: string | null = null;
+    let lowestRatedMovie: string | null = null;
+    let highestRating = -Infinity;
+    let lowestRating = Infinity;
 
-  movies.forEach((movie) => {
-    if (movie.rating > highestRating) {
-      let highestRatedMovie = "N/A";
-let highestRating = -1;
+    movies.forEach((movie) => {
+      if (movie.rating > highestRating) {
+        highestRating = movie.rating;
+        highestRatedMovie = movie.title;
+      }
 
-movies.forEach((movie) => {
-  if (movie.rating > highestRating) {
-    highestRating = movie.rating;
-    highestRatedMovie = movie.title;
+      if (movie.rating < lowestRating) {
+        lowestRating = movie.rating;
+        lowestRatedMovie = movie.title;
+      }
+    });
+
+    // Genre distribution
+    const genreStats: Record<string, number> = {};
+
+    movies.forEach((movie) => {
+      if (genreStats[movie.genre]) {
+        genreStats[movie.genre]++;
+      } else {
+        genreStats[movie.genre] = 1;
+      }
+    });
+
+    return {
+      totalMovies,
+      averageRating: Number(averageRating.toFixed(2)),
+      highestRatedMovie,
+      lowestRatedMovie,
+      genreStats,
+    };
   }
-});
-    }
-  });
-
-  // Genre distribution
-  const genreStats: any = {};
-
-  movies.forEach((movie) => {
-    if (genreStats[movie.genre]) {
-      genreStats[movie.genre]++;
-    } else {
-      genreStats[movie.genre] = 1;
-    }
-  });
-
-  return {
-    totalMovies,
-    averageRating: Number(averageRating.toFixed(2)),
-    highestRatedMovie,
-    genreStats,
-  };
-}
 }

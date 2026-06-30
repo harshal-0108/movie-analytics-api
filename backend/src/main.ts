@@ -13,6 +13,27 @@ async function bootstrap() {
     await NestFactory.create(
       AppModule,
     );
+
+    async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+
+  // ---------------- SWAGGER CONFIG ----------------
+  const config = new DocumentBuilder()
+    .setTitle('Movie Analytics API')
+    .setDescription('API for movies, users, analytics')
+    .setVersion('1.0')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+
+  SwaggerModule.setup('api', app, document);
+
+
+  // ---------------- START SERVER ----------------
+  await app.listen(3001);
+}
+bootstrap();
+
     app.use(helmet());
 
    app.enableCors({

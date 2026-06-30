@@ -26,7 +26,8 @@ export declare class MoviesController {
         totalMovies: number;
         averageRating: number;
         highestRatedMovie: null;
-        genreStats: any;
+        lowestRatedMovie: null;
+        genreStats: Record<string, number>;
     }>;
     findOne(id: string): Promise<(import("mongoose").Document<unknown, {}, import("./schemas/movie.schema").Movie, {}, import("mongoose").DefaultSchemaOptions> & import("./schemas/movie.schema").Movie & Required<{
         _id: import("mongoose").Types.ObjectId;

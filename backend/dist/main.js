@@ -9,6 +9,18 @@ const swagger_1 = require("@nestjs/swagger");
 const helmet_1 = __importDefault(require("helmet"));
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
+    async function bootstrap() {
+        const app = await core_1.NestFactory.create(app_module_1.AppModule);
+        const config = new swagger_1.DocumentBuilder()
+            .setTitle('Movie Analytics API')
+            .setDescription('API for movies, users, analytics')
+            .setVersion('1.0')
+            .build();
+        const document = swagger_1.SwaggerModule.createDocument(app, config);
+        swagger_1.SwaggerModule.setup('api', app, document);
+        await app.listen(3001);
+    }
+    bootstrap();
     app.use((0, helmet_1.default)());
     app.enableCors({
         origin: 'http://localhost:5173',

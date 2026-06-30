@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const movies_module_1 = require("./movies/movies.module");
+const users_module_1 = require("./users/users.module");
 const mongoose_1 = require("@nestjs/mongoose");
 let AppModule = class AppModule {
 };
@@ -18,6 +19,7 @@ exports.AppModule = AppModule = __decorate([
         imports: [
             mongoose_1.MongooseModule.forRoot('mongodb://localhost:27017/movie-analytics-db'),
             movies_module_1.MoviesModule,
+            users_module_1.UsersModule,
         ],
     })
 ], AppModule);
